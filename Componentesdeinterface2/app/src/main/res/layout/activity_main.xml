@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        android:textSize="22sp" />
+
+    <Switch
+        android:id="@+id/sEstado"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:text="Lembrar Senha"
+        android:textOff="Desligado"
+        android:textOn="Ligado"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Toggle Button"
+        android:textSize="22sp" />
+
+    <ToggleButton
+        android:id="@+id/tbEstado"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton"
+        android:textOff="Desligado"
+        android:textOn="Ligado" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Box"
+        android:textSize="22sp" />
+
+    <CheckBox
+        android:id="@+id/cbEstado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lmebrar senha" />
+
+    <Button
+        android:id="@+id/btEnviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="enviar"
+        android:text="Enviar" />
+
+    <TextView
+        android:id="@+id/tvResultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
+
+</LinearLayout>
