@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public void calcular(){
 
         if (etValor == null || etValor.equals("")){
-            Toast.makeText(getApplicationContext(),"Informe um valor para calcular a gorjeta!",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"Informe um valor para calcular a gorjeta!",Toast.LENGTH_LONG).show();
         } else {
             double valorDigitado = Double.parseDouble(etValor.getText().toString());
             double gorjeta = valorDigitado * (porcentagem / 100);
