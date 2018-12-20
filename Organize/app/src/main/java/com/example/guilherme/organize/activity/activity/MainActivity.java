@@ -2,6 +2,7 @@ package com.example.guilherme.organize.activity.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.example.guilherme.organize.R;
@@ -9,10 +10,17 @@ import com.example.guilherme.organize.activity.config.ConfiguracaoFirebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+
+import java.util.Calendar;
 
 public class MainActivity extends IntroActivity {
 
     private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

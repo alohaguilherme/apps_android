@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.activity.ReceitasActivity">
+    tools:context=".activity.activity.DespesasActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ems="10"
+            android:hint="R$ 00.00"
             android:inputType="numberDecimal"
-            android:text="R$ 00.00"
             android:textAlignment="textEnd"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
