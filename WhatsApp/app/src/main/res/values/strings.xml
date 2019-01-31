@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">WhatsApp</string>
+    <string name="name_email">Digite seu e-mail</string>
+    <string name="password_name">Digite sua senha</string>
+    <string name="signIn">Logar</string>
+    <string name="newAccount_string">Não tem conta? Cadastre-se</string>
+    <string name="name_user">Digite seu nome</string>
+    <string name="name_chats">Conversas</string>
+    <string name="name_contacts">Contatos</string>
+    <string name="desc_cadastrar">Cadastrar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_chat_screen">ChatScreenActivity</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_group_register">GroupRegisterActivity</string>
+</resources>

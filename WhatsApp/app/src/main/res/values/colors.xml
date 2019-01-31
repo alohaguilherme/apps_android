@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#257256</color>
+    <color name="colorPrimaryDark">#1e5b41</color>
+    <color name="colorAccent">#25d366</color>
+    <color name="background_settings">#eeeeee</color>
+    <color name="balon_sender">#dbf9c4</color>
+</resources>

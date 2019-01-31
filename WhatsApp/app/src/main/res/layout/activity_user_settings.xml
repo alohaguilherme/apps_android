@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_settings"
+    tools:context=".activity.UserSettingsActivity"
+    tools:layout_editor_absoluteY="25dp">
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/photo_user_profile"
+        android:layout_width="200dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/padrao"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingTop="0dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_user_profile">
+
+        <EditText
+            android:id="@+id/editNameUserProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Nome do usuário"
+            android:inputType="textPersonName"
+            android:textAlignment="viewStart" />
+
+        <ImageView
+            android:id="@+id/imageNameNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_edit_green" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Esse não é seu nome de usuário nem sua senha. Essa nome \n ficará visível para seus contatos do WhatsApp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCamGal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="270dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photo_user_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/photo_user_profile"
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        app:srcCompat="@drawable/ic_camera_green" />
+
+</android.support.constraint.ConstraintLayout>

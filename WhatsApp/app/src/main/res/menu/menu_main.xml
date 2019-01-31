@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+     <item android:id="@+id/searchMenu"
+         android:title="Pesquisar"
+         app:showAsAction="always"
+         android:icon="@drawable/ic_search_white"/>
+
+    <item android:id="@+id/configMenu"
+         android:title="Configuracões"
+         app:showAsAction="never"/>
+
+    <item android:id="@+id/closeMenu"
+         android:title="Sair"
+         app:showAsAction="never"/>
+</menu>
