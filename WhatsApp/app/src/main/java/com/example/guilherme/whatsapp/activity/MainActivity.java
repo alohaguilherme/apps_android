@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             .create()
         );
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter( adapter );
 
         SmartTabLayout smartTabLayout = findViewById(R.id.viewPagerTab);
@@ -99,11 +99,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                //acessa o fragment
-                ChatsFragment chatsFragment = (ChatsFragment) ((FragmentPagerItemAdapter) adapter).getPage(0);
-
-                if (newText != null && !newText.isEmpty()){
-                    chatsFragment.searchConversation( newText.toLowerCase() );
+                switch ( viewPager.getCurrentItem() ){
+                    case 0:
+                        //conversas fragment
+                        ChatsFragment chatsFragment = (ChatsFragment) ((FragmentPagerItemAdapter) adapter).getPage(0);
+                        //acessa o fragment
+                        if (newText != null && !newText.isEmpty()){
+                            chatsFragment.searchConversation( newText.toLowerCase() );
+                        }else {
+                            chatsFragment.reloadConversations();
+                        }
+                        break;
+                    case 1:
+                        ContactsFragment contactsFragment = (ContactsFragment) ((FragmentPagerItemAdapter) adapter).getPage(1);
+                        if (newText != null && !newText.isEmpty()){
+                            contactsFragment .searchContacts( newText.toLowerCase() );
+                        }else {
+                            contactsFragment .reloadContacts();
+                        }
+                        break;
                 }
 
                 return true;

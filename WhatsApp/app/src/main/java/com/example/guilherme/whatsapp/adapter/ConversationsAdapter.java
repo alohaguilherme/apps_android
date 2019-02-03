@@ -2,6 +2,7 @@ package com.example.guilherme.whatsapp.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.guilherme.whatsapp.R;
+import com.example.guilherme.whatsapp.model.GroupContact;
 import com.example.guilherme.whatsapp.model.Talk;
 import com.example.guilherme.whatsapp.model.User;
 
@@ -29,6 +31,10 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
         this.context = c;
     }
 
+    public List<Talk> getConversantion(){
+        return this.listTalks;
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
@@ -40,21 +46,36 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
     public void onBindViewHolder( MyViewHolder myViewHolder, int i) {
 
         Talk conversation = listTalks.get( i );
-
-
         myViewHolder.lastMessage.setText( conversation.getLastMessage() );
 
-        User user = conversation.getUser();
+        if ( conversation.getIsGroup().equals("true") ) {
+            GroupContact group = conversation.getGroup();
 
-        myViewHolder.name.setText( user.getName() );
+            myViewHolder.name.setText( group.getName());
+            if (group.getPhoto() != null ) {
+                Uri uri = Uri.parse( group.getPhoto() );
+                Glide.with( context ).load( uri ).into( myViewHolder.photo);
 
-        if (user.getPhoto() != null ) {
-            Uri uri = Uri.parse( user.getPhoto() );
-            Glide.with( context ).load( uri ).into( myViewHolder.photo);
+            }else  {
+                myViewHolder.photo.setImageResource( R.drawable.padrao);
+            }
 
-        }else  {
-            myViewHolder.photo.setImageResource( R.drawable.padrao);
+        }else {
+            User user = conversation.getUser();
+            if (user != null) {
+
+                myViewHolder.name.setText(user.getName());
+
+                if (user.getPhoto() != null) {
+                    Uri uri = Uri.parse(user.getPhoto());
+                    Glide.with(context).load(uri).into(myViewHolder.photo);
+
+                } else {
+                    myViewHolder.photo.setImageResource(R.drawable.padrao);
+                }
+            }
         }
+
     }
 
     @Override

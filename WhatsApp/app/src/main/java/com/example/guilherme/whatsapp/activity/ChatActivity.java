@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.example.guilherme.whatsapp.adapter.MessageAdapter;
 import com.example.guilherme.whatsapp.config.SettingsFirebase;
 import com.example.guilherme.whatsapp.helper.Base64Custom;
 import com.example.guilherme.whatsapp.helper.FirebaseUser;
+import com.example.guilherme.whatsapp.model.GroupContact;
 import com.example.guilherme.whatsapp.model.Message;
 import com.example.guilherme.whatsapp.model.Talk;
 import com.example.guilherme.whatsapp.model.User;
@@ -47,6 +49,8 @@ public class ChatActivity extends AppCompatActivity {
     private TextView textViewName;
     private CircleImageView imagePhotoUser;
     private User userRecipient;
+    private User senderUser;
+    private GroupContact groupContact;
     private EditText editMessage;
     private ImageView imageCam;
     private List<Message> messagesList = new ArrayList<>();
@@ -74,6 +78,7 @@ public class ChatActivity extends AppCompatActivity {
         imagePhotoUser = findViewById(R.id.circleImagePhoto);
         editMessage = findViewById(R.id.editMessage);
         imageCam = findViewById(R.id.imageCam);
+        senderUser = FirebaseUser.getDataLogInUser();
 
         recyclerMessage = findViewById(R.id.recyclerMessage);
 
@@ -84,21 +89,39 @@ public class ChatActivity extends AppCompatActivity {
 
         if ( bundle != null) {
 
-            userRecipient = (User) bundle.getSerializable( "chatContact");
-            textViewName.setText( userRecipient.getName() );
+            if ( bundle.containsKey("chatGroup") ){
+                groupContact = (GroupContact) bundle.getSerializable( "chatGroup");
+                textViewName.setText( groupContact.getName() );
+                //Usuario destinatario
+                idRecipientUser = groupContact.getId();
 
-            String photo = userRecipient.getPhoto();
-            if ( photo != null ){
+                String photo = groupContact.getPhoto();
+                if (photo != null) {
 
-                Uri url = Uri.parse(userRecipient.getPhoto());
-                Glide.with(ChatActivity.this).load(url).into( imagePhotoUser );
+                    Uri url = Uri.parse( photo );
+                    Glide.with(ChatActivity.this).load(url).into(imagePhotoUser);
+
+                } else {
+                    imagePhotoUser.setImageResource(R.drawable.padrao);
+                }
 
             }else {
-                imagePhotoUser.setImageResource(R.drawable.padrao);
-            }
+                userRecipient = (User) bundle.getSerializable( "chatContact");
+                textViewName.setText( userRecipient.getName() );
 
-            //Usuario destinatario
-            idRecipientUser = Base64Custom.encodeBase64( userRecipient.getEmail() );
+                String photo = userRecipient.getPhoto();
+                if (photo != null) {
+
+                    Uri url = Uri.parse(userRecipient.getPhoto());
+                    Glide.with(ChatActivity.this).load(url).into(imagePhotoUser);
+
+                } else {
+                    imagePhotoUser.setImageResource(R.drawable.padrao);
+                }
+
+                //Usuario destinatario
+                idRecipientUser = Base64Custom.encodeBase64(userRecipient.getEmail());
+            }
         }
 
         //Adapter
@@ -197,30 +220,63 @@ public class ChatActivity extends AppCompatActivity {
         String textMessage = editMessage.getText().toString();
 
         if ( textMessage != null && !textMessage.equals("") ) {
-            Message message = new Message();
 
-            message.setIdUser(idSenderUser);
-            message.setMessage(textMessage);
+            if (userRecipient != null){
+                Message message = new Message();
 
-            //remetente
-            saveMessage(idSenderUser, idRecipientUser, message);
+                message.setIdUser(idSenderUser);
+                message.setMessage(textMessage);
 
-            //detinatario
-            saveMessage(idRecipientUser, idSenderUser, message);
+                //remetente
+                saveMessage(idSenderUser, idRecipientUser, message);
 
-            saveConversation(message);
+                saveConversation(idSenderUser, idRecipientUser, userRecipient, message,false);
 
-            editMessage.setText("");
+                //detinatario
+                saveMessage(idRecipientUser, idSenderUser, message);
 
+                saveConversation(idRecipientUser, idSenderUser, senderUser, message,false);
+
+                editMessage.setText("");
+            }else {
+
+                for (User member: groupContact.getMembers() ) {
+
+                    String idSenderGroup = Base64Custom.encodeBase64( member.getEmail());
+                    String idUserLogonGroup = FirebaseUser.getIdUser();
+
+                    Log.i("EMAIL:", member.getEmail().toString() + "id user logado: " + idUserLogonGroup + "USUARIOS QUE DESTINARIO: "+ idRecipientUser.toString());
+
+                    Message message = new Message();
+
+                    message.setIdUser(idUserLogonGroup);
+                    message.setMessage(textMessage);
+                    message.setName( senderUser.getName() );
+
+                    //remetente
+                    saveMessage(idSenderGroup, idRecipientUser, message);
+
+                    saveConversation(idUserLogonGroup, idRecipientUser, userRecipient, message, true);
+
+                    editMessage.setText("");
+                }
+            }
         }
     }
 
-    private void saveConversation(Message msg) {
+    private void saveConversation(String idSender, String idRecipient, User exibitionUser,Message msg, boolean isGroup) {
+
         Talk talkSender = new Talk();
-        talkSender.setIdSender(idSenderUser);
-        talkSender.setIdRecipient(idRecipientUser);
-        talkSender.setLastMessage( msg.getMessage());
-        talkSender.setUser( userRecipient );
+        talkSender.setIdSender(idSender);
+        talkSender.setIdRecipient(idRecipient);
+        talkSender.setLastMessage(msg.getMessage());
+
+        if ( isGroup ) {
+            talkSender.setIsGroup("true");
+            talkSender.setGroup( groupContact );
+        }else {
+            talkSender.setUser(exibitionUser);
+        }
 
         talkSender.save();
     }

@@ -15,6 +15,14 @@
         android:orientation="vertical"
         android:layout_alignParentRight="true">
 
+        <TextView
+            android:id="@+id/textExibitionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guilherme Santos"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/imageMessagePhoto"
             android:layout_width="wrap_content"

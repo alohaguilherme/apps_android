@@ -1,13 +1,22 @@
 package com.example.guilherme.whatsapp.model;
 
 public class Message {
-    private String idUser, image, message;
+    private String idUser, image, message, name;
 
     public Message() {
+        this.setName("");
     }
 
     public String getIdUser() {
         return idUser;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdUser(String idUser) {

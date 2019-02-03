@@ -31,6 +31,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
         this.context = c;
     }
 
+    public List<User> getContacts(){
+        return this.contacts;
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {

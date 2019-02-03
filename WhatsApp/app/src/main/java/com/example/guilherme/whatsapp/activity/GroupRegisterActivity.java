@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +43,10 @@ public class GroupRegisterActivity extends AppCompatActivity {
     private ArrayList<User> userSelectedList = new ArrayList<>();
     private SelectedGroupAdapter selectedGroupAdapter;
     private TextView totalParticipantes;
+    private EditText textNomeGrupo;
     private RecyclerView recyclerSelectedMembers;
     private StorageReference storageReference;
+    private FloatingActionButton fabSaveGroup;
     private ImageView imageGroup;
     private String idUser;
     private User userLogON;
@@ -63,8 +66,11 @@ public class GroupRegisterActivity extends AppCompatActivity {
 
         totalParticipantes = findViewById(R.id.textTotalParticipantes);
         recyclerSelectedMembers = findViewById(R.id.recyclerGroupMembers);
+        textNomeGrupo = findViewById(R.id.textNomeGrupo);
         imageGroup = findViewById(R.id.circlePhotoGrupo);
+        fabSaveGroup = findViewById(R.id.fabSaveGroup);
         storageReference = SettingsFirebase.getFirebaseStorage();
+
         group = new GroupContact();
 
         imageGroup.setOnClickListener(new View.OnClickListener() {
@@ -77,15 +83,6 @@ public class GroupRegisterActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Recover List Members
         if ( getIntent().getExtras() != null ){
@@ -108,6 +105,25 @@ public class GroupRegisterActivity extends AppCompatActivity {
         recyclerSelectedMembers.setLayoutManager( layoutManagerHorizontal );
         recyclerSelectedMembers.setHasFixedSize( true );
         recyclerSelectedMembers.setAdapter( selectedGroupAdapter );
+
+        fabSaveGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String groupName = textNomeGrupo.getText().toString();
+
+                userSelectedList.add(FirebaseUser.getDataLogInUser());
+
+                group.setMembers( userSelectedList );
+
+                group.setName( groupName );
+                group.save();
+
+                Intent i = new Intent( GroupRegisterActivity.this ,  ChatActivity.class);
+                i.putExtra("chatGroup", group);
+                startActivity( i );
+            }
+        });
     }
 
     @Override

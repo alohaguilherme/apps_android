@@ -69,12 +69,23 @@ public class ChatsFragment extends Fragment {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        List<Talk> listUpdatedConversation = adapter.getConversantion();
+                        Talk selectedConversion = listUpdatedConversation.get( position );
 
-                        Talk selectedConversion = conversationList.get( position );
 
-                        Intent i =   new Intent(getActivity(), ChatActivity.class);
-                        i.putExtra("chatContact", selectedConversion.getUser());
-                        startActivity( i );
+                        if (selectedConversion.getIsGroup().equals("true")) {
+
+                            Intent i =   new Intent(getActivity(), ChatActivity.class);
+                            i.putExtra("chatGroup", selectedConversion.getGroup());
+                            startActivity( i );
+
+                        }else {
+
+                            Intent i =   new Intent(getActivity(), ChatActivity.class);
+                            i.putExtra("chatContact", selectedConversion.getUser());
+                            startActivity( i );
+
+                        }
                     }
 
                     @Override
@@ -111,13 +122,21 @@ public class ChatsFragment extends Fragment {
     public void searchConversation( String texto ){
         List<Talk> listSerchConversation = new ArrayList<>();
 
-        for (Talk talk : conversationList){
+        for (Talk talk : conversationList) {
+            if (talk.getUser() != null){
+                String name = talk.getUser().getName().toLowerCase();
+                String lastMessage = talk.getLastMessage().toLowerCase();
 
-            String name = talk.getUser().getName().toLowerCase();
-            String lastMessage = talk.getLastMessage().toLowerCase();
+                if (name.contains(texto) || lastMessage.contains(texto)) {
+                    listSerchConversation.add(talk);
+                }
+            }else {
+                String name = talk.getGroup().getName().toLowerCase();
+                String lastMessage = talk.getLastMessage().toLowerCase();
 
-            if ( name.contains( texto ) || lastMessage.contains( texto )) {
-                listSerchConversation.add( talk );
+                if (name.contains(texto) || lastMessage.contains(texto)) {
+                    listSerchConversation.add(talk);
+                }
             }
         }
 

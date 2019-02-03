@@ -1,6 +1,9 @@
 package com.example.guilherme.whatsapp.model;
 
+import android.provider.Telephony;
+
 import com.example.guilherme.whatsapp.config.SettingsFirebase;
+import com.example.guilherme.whatsapp.helper.Base64Custom;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
@@ -20,6 +23,32 @@ public class GroupContact implements Serializable {
 
         String idGroupFirebase = groupref.push().getKey();
         setId( idGroupFirebase  );
+
+    }
+
+    public void save(){
+        DatabaseReference database = SettingsFirebase.getFirebaseDatabase();
+        DatabaseReference groupref = database.child("groups");
+
+        groupref.child( getId() ).setValue( this );
+
+        //salvar cinversa
+        for ( User member: getMembers() ) {
+
+            String idSender = Base64Custom.encodeBase64( member.getEmail() );
+            String idRecipient = getId();
+
+            Talk talk = new Talk();
+
+            talk.setIdSender( idSender );
+            talk.setIdRecipient( idRecipient );
+            talk.setLastMessage("");
+            talk.setIsGroup("true");
+            talk.setGroup( this );
+
+            talk.save();
+        }
+
 
     }
 
